@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>HabitCore - Panel</title>
+    <link rel="stylesheet" href="../assets/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body class="dashboard">
+
+    <div class="dashboard-wrapper">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <h2><i class="fa-solid fa-fire"></i> HabitCore</h2>
+            <ul>
+                <ul>
+                    <li id="menu-habitos" class="active"><i class="fa-solid fa-list"></i> Mis Hábitos</li>
+                    <li id="menu-progreso"><i class="fa-solid fa-chart-line"></i> Progreso</li>
+                    <li id="btn-cerrar-sesion"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</li>
+                </ul>
+            </ul>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="content">
+            <div class="topbar">
+                <div class="topbar-left">
+                    <h1>Bienvenido, <span id="nombre-usuario">Usuario</span></h1>
+                    <p class="subtitle">Hoy es un buen día para cumplir tus hábitos.</p>
+                </div>
+                <button class="btn-nuevo-habito" id="btn-nuevo-habito">
+                    <i class="fa-solid fa-plus"></i> Nuevo hábito
+                </button>
+            </div>
+
+            <!-- STATS -->
+            <div class="stats">
+                <div class="stat-card">
+                    <h3 id="stats-activos">0</h3>
+                    <p>Hábitos activos</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="stats-completados">0</h3>
+                    <p>Completados hoy</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="stats-mejor-valor">0</h3>
+                    <p id="stats-mejor-nombre">Mejor racha</p>
+                </div>
+            </div>
+
+            <!-- PESTAÑAS: HOY / TODOS -->
+            <div class="tab-bar">
+                <button class="tab-btn active" id="tab-hoy">Hábitos de hoy</button>
+                <button class="tab-btn" id="tab-todos">Todos los hábitos</button>
+            </div>
+
+            <!-- HABITS GRID (único contenedor) -->
+            <div class="habits-grid" id="habits-grid"></div>
+            <!-- VISTA DE PROGRESO (oculta por defecto) -->
+            <div class="progress-view" id="progress-view" style="display: none;">
+                <div class="progress-header">
+                    <h2>Estadísticas de progreso</h2>
+                    <p class="subtitle">Seguimiento de tus últimos 30 días</p>
+                </div>
+
+                <!-- Gráfico semanal -->
+                <div class="chart-container card">
+                    <canvas id="weeklyChart"></canvas>
+                </div>
+
+                <!-- Resumen por categorías -->
+                <div class="category-summary">
+                    <h3>Desempeño por categoría</h3>
+                    <div class="category-bars" id="category-bars"></div>
+                </div>
+
+                <!-- Tabla de hábitos con rachas -->
+                <div class="habits-progress-table">
+                    <h3>Detalle de hábitos</h3>
+                    <table class="progress-table">
+                        <thead>
+                            <tr>
+                                <th>Hábito</th>
+                                <th>Categoría</th>
+                                <th>Racha actual</th>
+                                <th>Mejor racha</th>
+                                <th>Completados (30d)</th>
+                                <th>% cumplimiento</th>
+                            </tr>
+                        </thead>
+                        <tbody id="progress-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL NUEVO HÁBITO -->
+    <div class="modal" id="modal-nuevo-habito">
+        <div class="modal-content modal-large-card">
+            <div class="modal-header">
+                <h2>Nuevo hábito</h2>
+                <button class="close-btn" id="cerrar-modal">&times;</button>
+            </div>
+            <form id="form-nuevo-habito" class="modal-form-grid">
+                <div class="col">
+                    <div class="form-group">
+                        <label>Nombre del hábito</label>
+                        <input type="text" id="habito-nombre" required placeholder="Ej: Ir al gimnasio" />
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría</label>
+                        <select id="habito-categoria" required>
+                            <option value="">Selecciona una categoría</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Frecuencia</label>
+                        <div class="dias-semana" id="nuevo-dias-container">
+                            <label><input type="checkbox" value="1"> Lun</label>
+                            <label><input type="checkbox" value="2"> Mar</label>
+                            <label><input type="checkbox" value="3"> Mié</label>
+                            <label><input type="checkbox" value="4"> Jue</label>
+                            <label><input type="checkbox" value="5"> Vie</label>
+                            <label><input type="checkbox" value="6"> Sáb</label>
+                            <label><input type="checkbox" value="7"> Dom</label>
+                        </div>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="habito-todos-dias" checked> Todos los días
+                        </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>Descripción (opcional)</label>
+                        <textarea id="habito-descripcion" rows="5" placeholder="Describe tu hábito..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Hora objetivo <small>(elige un preset o personalizar)</small></label>
+                        <div class="time-row">
+                            <div class="time-presets" id="habito-time-presets">
+                                <button type="button" class="preset-btn" data-value="none">Sin hora</button>
+                                <button type="button" class="preset-btn" data-value="07:00:00">Mañana 7:00</button>
+                                <button type="button" class="preset-btn" data-value="12:00:00">Mediodía 12:00</button>
+                                <button type="button" class="preset-btn" data-value="18:00:00">Tarde 18:00</button>
+                                <button type="button" class="preset-btn" data-value="custom">Personalizar</button>
+                            </div>
+                            <div class="time-picker" id="habito-time-picker" style="display: none;">
+                                <input type="time" id="habito-time-input" step="300" />
+                            </div>
+                            <div id="habito-time-display" class="time-display">— : —</div>
+                            <input type="hidden" id="habito-time-selected" value="none" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer full-width">
+                    <button type="button" class="btn-secondary" id="cancelar-modal">Cancelar</button>
+                    <button type="submit" class="btn-primary">Guardar hábito</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL EDITAR HÁBITO -->
+    <div class="modal" id="modal-editar-habito">
+        <div class="modal-content modal-large-card">
+            <div class="modal-header">
+                <h2>Editar hábito</h2>
+                <button class="close-btn" id="cerrar-modal-editar">&times;</button>
+            </div>
+            <form id="form-editar-habito" class="modal-form-grid">
+                <input type="hidden" id="edit-id" />
+                <div class="col">
+                    <div class="form-group">
+                        <label>Nombre del hábito</label>
+                        <input type="text" id="edit-nombre" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría</label>
+                        <select id="edit-categoria" required>
+                            <option value="">Selecciona una categoría</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Frecuencia</label>
+                        <div id="edit-dias-container" class="dias-semana"></div>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" id="edit-todos-dias"> Todos los días
+                        </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>Descripción (opcional)</label>
+                        <textarea id="edit-descripcion" rows="5"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Hora objetivo <small>(elige preset o personalizar)</small></label>
+                        <div class="time-row">
+                            <div class="time-presets" id="edit-time-presets">
+                                <button type="button" class="preset-btn" data-value="none">Sin hora</button>
+                                <button type="button" class="preset-btn" data-value="07:00:00">Mañana 7:00</button>
+                                <button type="button" class="preset-btn" data-value="12:00:00">Mediodía 12:00</button>
+                                <button type="button" class="preset-btn" data-value="18:00:00">Tarde 18:00</button>
+                                <button type="button" class="preset-btn" data-value="custom">Personalizar</button>
+                            </div>
+                            <div class="time-picker" id="edit-time-picker" style="display: none;">
+                                <input type="time" id="edit-time-input" step="300" />
+                            </div>
+                            <div id="edit-time-display" class="time-display">— : —</div>
+                            <input type="hidden" id="edit-time-selected" value="none" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer full-width">
+                    <button type="button" class="btn-secondary" id="cancelar-modal-editar">Cancelar</button>
+                    <button type="submit" class="btn-primary">Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL CONFIRMAR -->
+    <div class="modal" id="modal-confirmar">
+        <div class="modal-content" style="max-width:420px;">
+            <div class="modal-header">
+                <h2 id="confirm-titulo">Confirmar</h2>
+                <button class="close-btn" id="cerrar-confirmar">&times;</button>
+            </div>
+            <div class="modal-body" style="padding:20px;">
+                <p id="confirm-mensaje"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" id="cancelar-confirmar">Cancelar</button>
+                <button type="button" class="btn-primary" id="confirmar-accion">Sí, eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/dashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</body>
+
+</html>

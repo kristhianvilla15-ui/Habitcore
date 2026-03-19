@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>HabitCore - Login</title>
+    <link rel="stylesheet" href="../assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="auth-wrapper">
+
+    <!-- IZQUIERDA -->
+    <div class="auth-container">
+        <h2>HabitCore</h2>
+        <p>Organiza tu disciplina diaria</p>
+
+        <form id="form-login">
+            <div class="input-group">
+                <i class="fa-solid fa-envelope"></i>
+                <input type="email" id="email-login" placeholder="Correo electrónico" required>
+            </div>
+
+            <div class="input-group input-group-password">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="password-login" placeholder="Contraseña" required>
+                <button type="button" class="toggle-password" id="toggle-password-login" aria-label="Mostrar contraseña">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
+            </div>
+
+            <button type="submit">Iniciar sesión</button>
+        </form>
+
+        <div class="auth-link">
+            ¿No tienes cuenta?
+            <a href="registro.html">Crear cuenta</a>
+        </div>
+    </div>
+
+    <!-- DERECHA -->
+    <div class="logo-side">
+    <div class="logo-content">
+        <img src="../assets/logo.png" alt="HabitCore Logo">
+
+        <h1 class="hero-text">
+            Construye disciplina.
+            <span>Domina tu día.</span>
+        </h1>
+
+        <p class="hero-sub">
+            Pequeños hábitos diarios crean resultados extraordinarios.
+        </p>
+    </div>
+</div>
+
+<script src="../js/auth.js"></script>
+</body>
+</html>
