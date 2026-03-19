@@ -454,7 +454,7 @@ async function cargarHabitosAdmin() {
         const qs = params.toString();
         const [resHab, resUsu, resCat] = await Promise.all([
             fetch('https://habitcore.onrender.com/api/admin/habitos' + (qs ? '?' + qs : ''), { headers }),
-            fetch('https://habitcore.onrender.com/admin/usuarios', { headers }),
+            fetch('https://habitcore.onrender.com/api/admin/usuarios', { headers }),
             fetch('https://habitcore.onrender.com/api/admin/categorias', { headers })
         ]);
         if (!resHab.ok) throw new Error('Error al cargar hábitos');
