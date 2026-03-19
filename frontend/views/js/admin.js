@@ -376,7 +376,7 @@ async function guardarCategoria(e) {
         descripcion: document.getElementById('categoria-descripcion').value.trim() || null
     };
     const token = localStorage.getItem('token');
-    const url = id ? `https://habitcore.onrender.com/api/admin/categorias/${id}` : 'http://localhost:3000/api/admin/categorias';
+    const url = id ? `https://habitcore.onrender.com/api/admin/categorias/${id}` : 'https://habitcore.onrender.com/api/admin/categorias';
     const method = id ? 'PUT' : 'POST';
     try {
         const res = await fetch(url, {
@@ -400,7 +400,7 @@ async function guardarCategoria(e) {
 async function editarCategoria(id) {
     try {
         const token = localStorage.getItem('token');
-        const res = await fetch(`http://localhost:3000/api/admin/categorias/${id}`, {
+        const res = await fetch(`https://habitcore.onrender.com/api/admin/categorias/${id}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const categoria = await res.json();
@@ -419,7 +419,7 @@ function confirmarEliminarCategoria(id, nombre) {
     confirmCallback = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch(`http://localhost:3000/api/admin/categorias/${id}`, {
+            const res = await fetch(`https://habitcore.onrender.com/api/admin/categorias/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
