@@ -258,7 +258,7 @@ async function guardarUsuario(e) {
 async function editarUsuario(id) {
     try {
         const token = localStorage.getItem('token');
-        const res = await fetch(`http://localhost:3000/api/admin/usuarios/${id}`, {
+        const res = await fetch(`https://habitcore.onrender.com/api/admin/usuarios/${id}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const usuario = await res.json();
@@ -279,7 +279,7 @@ function confirmarEliminarUsuario(id, nombre) {
     confirmCallback = async () => {
         try {
             const token = localStorage.getItem('token');
-            const res = await fetch(`http://localhost:3000/api/admin/usuarios/${id}`, {
+            const res = await fetch(`https://habitcore.onrender.com/api/admin/usuarios/${id}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -303,7 +303,7 @@ async function cargarCategorias() {
         const token = localStorage.getItem('token');
         const buscar = document.getElementById('filter-categorias-buscar')?.value || '';
         const params = buscar ? '?buscar=' + encodeURIComponent(buscar) : '';
-        const res = await fetch('http://localhost:3000/api/admin/categorias' + params, {
+        const res = await fetch('https://habitcore.onrender.com/api/admin/categorias' + params, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!res.ok) throw new Error('Error al cargar categorías');
@@ -376,7 +376,7 @@ async function guardarCategoria(e) {
         descripcion: document.getElementById('categoria-descripcion').value.trim() || null
     };
     const token = localStorage.getItem('token');
-    const url = id ? `http://localhost:3000/api/admin/categorias/${id}` : 'http://localhost:3000/api/admin/categorias';
+    const url = id ? `https://habitcore.onrender.com/api/admin/categorias/${id}` : 'http://localhost:3000/api/admin/categorias';
     const method = id ? 'PUT' : 'POST';
     try {
         const res = await fetch(url, {
@@ -453,9 +453,9 @@ async function cargarHabitosAdmin() {
         if (fechaHasta) params.set('fecha_hasta', fechaHasta);
         const qs = params.toString();
         const [resHab, resUsu, resCat] = await Promise.all([
-            fetch('http://localhost:3000/api/admin/habitos' + (qs ? '?' + qs : ''), { headers }),
-            fetch('http://localhost:3000/api/admin/usuarios', { headers }),
-            fetch('http://localhost:3000/api/admin/categorias', { headers })
+            fetch('https://habitcore.onrender.com/api/admin/habitos' + (qs ? '?' + qs : ''), { headers }),
+            fetch('https://habitcore.onrender.com/admin/usuarios', { headers }),
+            fetch('https://habitcore.onrender.com/api/admin/categorias', { headers })
         ]);
         if (!resHab.ok) throw new Error('Error al cargar hábitos');
         const [habitos, usuarios, categorias] = await Promise.all([
