@@ -312,7 +312,7 @@ async function marcarCompletado(id) {
     try {
         const usuario = JSON.parse(localStorage.getItem('usuario'));
         const token = localStorage.getItem('token');
-        const res = await fetch('https://habitcore.onrender.com/habitos/registros', {
+        const res = await fetch('https://habitcore.onrender.com/api/habitos/registros', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({ habitoId: id })

@@ -13,6 +13,7 @@ router.get('/estadisticas', habitosController.getEstadisticas);
 router.post('/registros', habitosController.completarHabito);
 
 // creación/editar/eliminar
+router.post('/registros', habitosController.completarHabito);
 router.post('/', habitosController.crearHabito);
 router.get('/:id', habitosController.getHabitoById);
 router.put('/:id', habitosController.actualizarHabito);
