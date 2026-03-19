@@ -77,7 +77,7 @@ async function cargarDashboardAdmin() {
     try {
         const token = localStorage.getItem('token');
         console.log('Token enviado:', token);
-        const res = await fetch('http://localhost:3000/api/admin/estadisticas', {
+        const res = await fetch('https://habitcore.onrender.com/api/admin/estadisticas', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!res.ok) throw new Error('Error al cargar estadísticas');
@@ -144,7 +144,7 @@ async function cargarUsuarios() {
         if (fechaDesde) params.set('fecha_desde', fechaDesde);
         if (fechaHasta) params.set('fecha_hasta', fechaHasta);
         const qs = params.toString();
-        const url = 'http://localhost:3000/api/admin/usuarios' + (qs ? '?' + qs : '');
+        const url = 'https://habitcore.onrender.com/api/admin/usuarios' + (qs ? '?' + qs : '');
         const res = await fetch(url, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -234,7 +234,7 @@ async function guardarUsuario(e) {
         rol: document.getElementById('usuario-rol').value
     };
     const token = localStorage.getItem('token');
-    const url = id ? `http://localhost:3000/api/admin/usuarios/${id}` : 'http://localhost:3000/api/admin/usuarios';
+    const url = id ? `https://habitcore.onrender.com/api/admin/usuarios/${id}` : 'https://habitcore.onrender.com/api/admin/usuarios';
     const method = id ? 'PUT' : 'POST';
     try {
         const res = await fetch(url, {
@@ -542,10 +542,10 @@ async function cargarRegistrosAdmin() {
         if (habitoId) params.set('habito_id', habitoId);
         const qs = params.toString();
         const [resReg, resUsu, resCat, resHab] = await Promise.all([
-            fetch('http://localhost:3000/api/admin/registros' + (qs ? '?' + qs : ''), { headers }),
-            fetch('http://localhost:3000/api/admin/usuarios', { headers }),
-            fetch('http://localhost:3000/api/admin/categorias', { headers }),
-            fetch('http://localhost:3000/api/admin/habitos', { headers })
+            fetch('https://habitcore.onrender.com/api/admin/registros' + (qs ? '?' + qs : ''), { headers }),
+            fetch('https://habitcore.onrender.com/api/admin/usuarios', { headers }),
+            fetch('https://habitcore.onrender.com/api/admin/categorias', { headers }),
+            fetch('https://habitcore.onrender.com/api/admin/habitos', { headers })
         ]);
         if (!resReg.ok) throw new Error('Error al cargar registros');
         const [registros, usuarios, categorias, habitos] = await Promise.all([

@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function cargarCategoriasUI() {
     const token = localStorage.getItem('token');
-    const res = await fetch('http://localhost:3000/api/habitos/categorias', {
+    const res = await fetch('https://habitcore.onrender.com/api/habitos/categorias', {
         headers: { 'Authorization': `Bearer ${token}` }
     });
     if (!res.ok) throw new Error('No se pudieron cargar categorías');
@@ -213,7 +213,7 @@ async function cargarDashboard(usuarioId) {
     try {
         mostrarLoading(true);
         const token = localStorage.getItem('token');
-        const res = await fetch(`http://localhost:3000/api/habitos?usuarioId=${encodeURIComponent(usuarioId)}`, {
+        const res = await fetch(`https://habitcore.onrender.com/api/habitos?usuarioId=${encodeURIComponent(usuarioId)}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!res.ok) throw new Error('Error al cargar hábitos');
@@ -240,7 +240,7 @@ async function cargarDashboard(usuarioId) {
 async function actualizarEstadisticas(usuarioId) {
     try {
         const token = localStorage.getItem('token');
-        const res = await fetch(`http://localhost:3000/api/habitos/estadisticas?usuarioId=${encodeURIComponent(usuarioId)}`, {
+        const res = await fetch(`https://habitcore.onrender.com/api/habitos/estadisticas?usuarioId=${encodeURIComponent(usuarioId)}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!res.ok) throw new Error('Error al cargar estadísticas');
@@ -312,7 +312,7 @@ async function marcarCompletado(id) {
     try {
         const usuario = JSON.parse(localStorage.getItem('usuario'));
         const token = localStorage.getItem('token');
-        const res = await fetch('http://localhost:3000/api/habitos/registros', {
+        const res = await fetch('https://habitcore.onrender.com/habitos/registros', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({ habitoId: id })
@@ -331,7 +331,7 @@ async function eliminarHabito(id) {
         mostrarLoading(true);
         const token = localStorage.getItem('token');
         const usuario = JSON.parse(localStorage.getItem('usuario'));
-        const res = await fetch(`http://localhost:3000/api/habitos/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+        const res = await fetch(`https://habitcore.onrender.com/api/habitos/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
         if (!res.ok) throw new Error('Error al eliminar');
         await cargarDashboard(usuario.id);
         mostrarMensaje('Eliminado', 'success');
@@ -434,7 +434,7 @@ async function guardarHabito(e) {
     btn.textContent = 'Guardando...';
     btn.disabled = true;
     try {
-        const res = await fetch('http://localhost:3000/api/habitos', {
+        const res = await fetch('https://habitcore.onrender.com/api/habitos', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify(data)
@@ -478,7 +478,7 @@ async function guardarEdicionHabito(e) {
     btn.textContent = 'Guardando...';
     btn.disabled = true;
     try {
-        const res = await fetch(`http://localhost:3000/api/habitos/${id}`, {
+        const res = await fetch(`https://habitcore.onrender.com/api/habitos/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify(data)
@@ -554,7 +554,7 @@ async function cargarProgreso() {
     try {
         mostrarLoading(true);
         const token = localStorage.getItem('token');
-        const res = await fetch('http://localhost:3000/api/progreso', {
+        const res = await fetch('https://habitcore.onrender.com/api/progreso', {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!res.ok) throw new Error('Error al cargar progreso');
